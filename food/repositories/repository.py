@@ -1,6 +1,7 @@
 from django.db import IntegrityError
 
 from ..models import *
+from ..serializers import *
 from ..exceptions.exeptions import IDNotFound, AlreadyExists
 
 
@@ -16,30 +17,24 @@ class FoodItemRelationChecker:
 
 
 class NutrientRepository:
-    model = Nutrient
 
     @staticmethod
     def get_all():
-        model = NutrientRepository.model
         return [
-            {"id": x.id, "name": x.name, "unit": x.unit} for x in model.objects.all()
+            NutrientSerializer.to_dict(x) for x in Nutrient.objects.all()
         ]
 
     @staticmethod
     def get_by_id(id):
-        model = NutrientRepository.model
-
         try:
-            return model.objects.get(id=id)
-        except model.DoesNotExist:
-            raise IDNotFound(model, id)
+            return Nutrient.objects.get(id=id)
+        except Nutrient.DoesNotExist:
+            raise IDNotFound(Nutrient, id)
 
     @staticmethod
     def create(name, unit):
-        model = NutrientRepository.model
-
         try:
-            model.objects.create(name=name, unit=unit)
+            Nutrient.objects.create(name=name, unit=unit)
         except IntegrityError:
             raise AlreadyExists    
 
@@ -159,6 +154,14 @@ class FoodItemNutrientRepository:
             return model.objects.get(id=id)
         except model.DoesNotExist:
             raise IDNotFound(model, id)
+
+    @staticmethod
+    def get_food_item_nutrients(id):
+        try:
+            food_item = FoodItemRepository.get_by_id(id)
+            return {str(x.nutrient.id): x.amount for x in FoodItemNutrient.objects.filter(food=food_item)}
+        except FoodItemNutrient.DoesNotExist:
+            raise IDNotFound(FoodItemNutrient, id)
 
     @staticmethod
     def create(food_item, nutrient, amount):

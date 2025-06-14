@@ -122,9 +122,16 @@ class FoodItemNutrientService:
         except ValueError:
             return 0
 
-        if amount < 0 or amount > 100:
-            raise ValueError("Amount must be an integer within interval [0-100]")
+        if amount < 0 or amount > 10000:
+            raise ValueError("Amount must be an integer within interval [0-10000]")
         return amount
+
+    @staticmethod
+    def get_food_item_nutrients(id):
+        try:
+            return FoodItemNutrientRepository.get_food_item_nutrients(id)
+        except IDNotFound as e:
+            raise InvalidReference(f"Invalid reference {str(e)}")
 
     @staticmethod
     def get_form():
@@ -141,12 +148,12 @@ class FoodItemNutrientService:
         valid_nutrients = NutrientService.get_all()
 
         for v in valid_nutrients:
-            if str(v["id"]) not in nutrients:
+            if v["id"] not in nutrients:
                 raise MissingField(f"Nutrient field '{v["name"]}' is missing")
 
             try:
                 nutrient = NutrientService.get_by_id(v["id"])
-                amount = FoodItemNutrientService.validate_amount(nutrients[str(v["id"])][0])
+                amount = FoodItemNutrientService.validate_amount(nutrients[v["id"]])
             except (IDNotFound, ValueError) as e:
                 raise InvalidReference(f"Invalid nutrient data: {e}")
         
@@ -250,6 +257,7 @@ class FoodItemChildService:
             raise ValueError("Amount must be an integer within interval [1-100]")
         return amount
     
+    
     @staticmethod
     def get_form(id):
         food_item = FoodItemService.get_by_id(id)
@@ -259,11 +267,11 @@ class FoodItemChildService:
             food_type = ["ingredient", "dish"]
             
         return {
-            "note": "Expecting a list of dicts with following structure",
+            "note": "Expecting a dict with following structure",
+            "note 2": "amount type 'float' min 0.1 max 100",
             "structure": [
                 {
-                    "id": {"type": "uuid", "food_type": food_type},
-                    "amount": {"type": "float", "min": 0.1, "max": 100}
+                    "uuid": "amount"
                 }
             ]
         }
@@ -273,18 +281,32 @@ class FoodItemChildService:
     def post_form(parent_id, children_list):
         parent = FoodItemService.get_by_id(parent_id) 
 
-        good_children = []
+        good_children = {}
 
-        for child in children_list:
+        for id, amount in children_list.items():
             try:
-                good_child = FoodItemService.get_by_id(child["id"])
-                amount = FoodItemChildService.validate_amount(child["amount"])
-                good_children.append({
-                    "child": good_child,
-                    "amount": amount,
-                })
+                good_child = FoodItemService.get_by_id(id)
+                amount = FoodItemChildService.validate_amount(amount)
+                good_children[id] = amount
+
             except (IDNotFound, KeyError, ValueError) as e:
                 raise InvalidReference(f"Invalid reference: {str(e)}")
         
-        for good_child in good_children:
-            FoodItemChildRepository.add(parent, good_child["child"], good_child["amount"])
+        parent_nutrients = {}
+
+        for id1, amount1 in good_children.items():
+            child_nutrients = FoodItemNutrientService.get_food_item_nutrients(id1)
+
+            for id2, amount2 in child_nutrients.items():
+                amount = round(float(amount2) * float(amount1), 2)
+
+                if id2 in parent_nutrients:
+                    parent_nutrients[str(id2)] += amount
+                else:
+                    parent_nutrients[str(id2)] = amount
+
+        FoodItemNutrientService.post_form(parent_nutrients, parent_id)
+
+        for id, amount in good_children.items():
+            good_child = FoodItemService.get_by_id(id)
+            FoodItemChildRepository.add(parent, good_child, amount)

@@ -12,6 +12,17 @@ from ..exceptions.exeptions import MissingField, InvalidReference
 class ControllerTools:
 
     @staticmethod
+    def validate_dict(d):
+        for key, value in d.items():
+            if isinstance(value, list):
+                value = value[0]
+            try:
+                d[key] = float(value)
+            except (TypeError, ValueError) as e:
+                raise InvalidReference(f"Invalid reference {str(e)}")
+        return d
+
+    @staticmethod
     def food_type_is_valid(id, *args):
         food_item = FoodItemService.get_by_id(id)
         if not food_item.type in args:
@@ -51,7 +62,7 @@ class FoodItemNutrientController:
             if FoodItemNutrientService.exists(id):
                 return JsonResponse({"error": "Nutrients already exist.", "redirect_to": f"/food/{id}/categories"})
             
-            nutrients = dict(request.POST)
+            nutrients = ControllerTools.validate_dict(dict(request.POST))
             FoodItemNutrientService.post_form(nutrients, id)
             return JsonResponse({"redirect_to": f"/food/{id}/categories"})
         
@@ -110,8 +121,7 @@ class FoodItemChildController:
         try:
             food_item = FoodItemService.get_by_id(id)
 
-            data = json.loads(request.body)
-            children_list = data["children_list"]
+            children_list = ControllerTools.validate_dict(dict(request.POST))
             FoodItemChildService.post_form(id, children_list)
             if food_item.type == "dish":
                 return JsonResponse({"redirect_to": f"/food/{id}/cuisines"})

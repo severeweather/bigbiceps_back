@@ -2,6 +2,12 @@ from django.urls import path
 
 from .controllers.controller import *
 
+from .models import FoodItem
+
+def delete_all(request):
+    FoodItem.objects.all().delete()
+    return JsonResponse({})
+
 urlpatterns = [
     path("", page, name="food"),
 
@@ -20,4 +26,6 @@ urlpatterns = [
     # path("admin/form/nutrient", form_nutrient, name="form_nutrient"),   
     # path("admin/form/category", form_category, name="form_category"),   
     # path("admin/form/cuisine", form_cuisine, name="form_cuisine"),   
+
+    path("delete/all", delete_all, name="name")
 ]
