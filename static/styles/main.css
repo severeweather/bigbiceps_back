@@ -1,0 +1,105 @@
+@import "vars.css";
+@import "buttons.css";
+@import "forms.css";
+@import "set_defaults.css";
+@import "mods.css";
+
+/* components */
+@import "searchbar.css";
+
+/* pages */
+@import "page_item-details.css";
+@import "page_food.css";
+
+.home-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.home-section {
+  min-height: 100vh;
+}
+
+.item-page-layout {
+  padding: 2rem 0;
+  width: 50%;
+  margin: auto;
+}
+
+/* extra */
+
+.nav-bar-layout {
+  padding: 1rem 0;
+
+  background-color: var(--col-bg-light-grey);
+  border-bottom: 1px solid var(--col-border);
+}
+
+.modal {
+  display: none;
+}
+
+/* TODO: MOVE TO SEPARATE FILE */
+
+.search-result-card-layout {
+  width: 100%;
+  min-width: 0;
+  padding: 1rem 1.2rem;
+
+  background-color: var(--col-bg-light-grey);
+  border: 1px solid var(--col-border);
+  border-radius: 1rem;
+}
+
+.search-results-grid {
+  display: grid;
+  grid-column: span 2;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.item-page-two-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.item-page-two-sections section {
+  width: 100%;
+}
+
+.label-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.parent-island {
+  padding: 1rem 1.2rem;
+  background-color: var(--col-bg-light-grey);
+  border: 1px solid var(--col-border);
+  border-radius: 1rem;
+}
+
+.profile-main-section {
+  width: 787px;
+  margin: auto;
+  min-height: 100vh;
+}
+
+.profile-picture {
+  width: 195px;
+  height: 255px;
+  background-color: var(--col-bg-light-grey);
+  border-right: 1px solid var(--col-border);
+}
+
+.profile-details-section {
+  width: 592px;
+}
+
+.search-result_v2 {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 8fr 1fr 1fr 1fr;
+  gap: 1rem;
+}

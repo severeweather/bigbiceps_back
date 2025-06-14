@@ -1,0 +1,12 @@
+:root {
+  --col-red: rgba(244, 73, 73, 1);
+  --col-blue: rgba(59, 179, 238, 1);
+}
+
+.btn-red {
+  color: var(--col-red);
+}
+
+.btn-blue {
+  color: var(--col-blue);
+}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+<!--prettier-ignore-->
+{% block title %}Add categories{% endblock %}
+{% block content %}
+<form method="post" action="{% url 'form_categories' food_item_id %}">
+  {% csrf_token %}
+  <!--prettier-ignore-->
+  {% for category in available_categories %}
+  <input type="checkbox" name="categories" value="{{ category.id }}">{{ category.name }}</input>
+  {% endfor %}
+  <button type="submit">Continue</button>
+</form>
+{% endblock %}

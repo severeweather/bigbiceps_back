@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+<!--prettier-ignore-->
+{% block title %}Plate{% endblock %}
+{% block content %}
+<div class="-container home-layout">
+  <section class="home-section -vside-borders">
+    <div class="-flex-row" style="padding: 2rem 1.5rem">
+      <a>Today</a>
+      <button type="button" data-action="triggerLogForm" class="btn-blue">
+        Log food
+      </button>
+    </div>
+    <div class="-bottom-border" id="logs-container">
+      <div id="log-form-container"></div>
+    </div>
+  </section>
+  <section class="home-section"></section>
+  <section
+    class="home-section -vside-borders -flex-col"
+    style="padding: 2rem 1.5rem; gap: 2rem"
+  >
+    <div class="-flex-col" style="gap: 1.5rem; height: fit-content">
+      <h4>Today's suggestions</h4>
+      <div id="suggestions-today-container">data</div>
+    </div>
+    <div class="-flex-col" style="gap: 1.5rem; height: fit-content">
+      <h4>Try something new</h4>
+      <div id="suggestions-new-container">data</div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+<!--prettier-ignore-->
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="form-page -container">
+  <form method="post" class="form-window" action="{% url 'register' %}">
+    {% csrf_token %}
+    <header>
+      <h2>Register</h2>
+    </header>
+
+    {% for field in form %}
+    <div>
+      <!--prettier-ignore-->
+      <label class="section-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+
+      <!--prettier-ignore-->
+      {% if field.errors %}
+      <div class="form-errors">
+        {{ field.errors }}
+        <!--prettier-ignore-->
+      </div>
+      {% endif %}
+      <!--prettier-ignore-->
+    </div>
+    {% endfor %}
+
+    <button type="submit">Register</button>
+  </form>
+</div>
+{% endblock %}

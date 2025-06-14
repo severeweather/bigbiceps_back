@@ -1,0 +1,10 @@
+@import "vars.css";
+
+.page_food {
+  padding: 2rem 0;
+
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+}

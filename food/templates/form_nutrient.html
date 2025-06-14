@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+<!--prettier-ignore-->
+{% block title %}New nutrient{% endblock %}
+
+{% block content %}
+<form method="post" action="{% url 'form_nutrient' %}">
+  {% csrf_token %}
+  <input type="text" name="name" />
+  <input type="text" name="unit" />
+  <button type="submit" name="action" value="save_go_home">Save</button>
+  <!--prettier-ignore-->
+  <button type="submit" name="action" value="save_one_more">Save and new</button>
+</form>
+{% endblock %}

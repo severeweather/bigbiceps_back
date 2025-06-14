@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+<!--prettier-ignore-->
+{% block title %}
+Food
+{% endblock %}
+
+<!--prettier-ignore-->
+{% block content %}
+<div>
+  <div class="page_food -container">
+    <section style="position: relative">
+      <!--prettier-ignore-->
+      {% include 'components/searchbar.html' with search_func="foodSearch_page" range="[1, 2, 3]" container_id="#food-page-search-result" %}
+    </section>
+    <section class="-align-items-center -justify-r">
+      <div class="-flex-row -width-fit-cont -flex-gap-m">
+        <a href="{% url 'food_form' 'ingredient' %}">new ingredient</a>
+        <a href="{% url 'food_form' 'dish' %}">new dish</a>
+        <a href="{% url 'food_form' 'meal' %}">new meal</a>
+      </div>
+    </section>
+    <section class="search-results-grid" id="food-page-search-result"></section>
+  </div>
+</div>
+{% endblock %}

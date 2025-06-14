@@ -1,0 +1,8 @@
+:root {
+  --col-white-text: white;
+  --col-text: rgba(152, 152, 152, 1);
+  --col-bg-dark-grey: rgba(152, 152, 152, 1);
+  --col-bg-light-grey: rgba(244, 244, 244, 1);
+  --col-bg-white: white;
+  --col-border: rgba(205, 205, 205, 1);
+}

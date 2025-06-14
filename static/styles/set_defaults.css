@@ -1,0 +1,49 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: "Inter";
+  color: var(--col-text);
+
+  cursor: default;
+}
+
+section {
+  width: 100%;
+}
+
+a,
+button {
+  width: fit-content;
+
+  font-size: 1rem;
+  text-decoration: none;
+
+  background: none;
+  border: none;
+
+  cursor: pointer;
+}
+
+label {
+  font-weight: 600;
+}
+
+input,
+textarea {
+  padding: 0.2rem 0.5rem;
+
+  font-size: 1rem;
+
+  border: 1px solid var(--col-border);
+  border-radius: 0.5rem;
+
+  resize: vertical;
+}
+
+select {
+  width: fit-content;
+}

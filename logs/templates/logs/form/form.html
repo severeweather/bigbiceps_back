@@ -1,0 +1,47 @@
+<form
+  method="post"
+  class="log-form-window"
+  id="log-form-window"
+  action="{% url 'submit_log_form' %}"
+>
+  {% csrf_token %}
+  <header class="-flex-row">
+    <h3>New log</h3>
+    <button
+      type="button"
+      class="btn-red"
+      data-action="close"
+      data-action-target="#log-form-window"
+    >
+      Close
+    </button>
+  </header>
+
+  <section>
+    <header>
+      <label>Food</label>
+      <button
+        type="button"
+        data-action="show"
+        data-action-target="#log-form-search-modal-window"
+      >
+        + Add food
+      </button>
+    </header>
+    <input
+      type="hidden"
+      name="foods"
+      data-action="render-food-badges"
+      data-target="#badges-food"
+    />
+    <div class="badges-island" id="badges-food"></div>
+
+    <div style="display: none" id="log-form-search-modal-window">
+      <!--prettier-ignore-->
+      {% include "components/searchbar.html" with search_func="foodSearch_modal" range="[1, 2, 3]" container_id="#search-food-results-container" %}
+      <div id="search-food-results-container"></div>
+    </div>
+  </section>
+
+  <button type="submit" action="{% url 'submit_log_form' %}">Save</button>
+</form>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+<!--prettier-ignore-->
+{% block title %}New category{% endblock %}
+{% block content %}
+<form method="post" action="{% url 'form_category' %}">
+  {% csrf_token %}
+  <label>category</label>
+  <input type="text" name="name" />
+  <button type="submit" name="action" value="save_go_home">Save</button>
+  <button type="submit" name="action" value="save_one_more">
+    Save and new
+  </button>
+</form>
+{% endblock %}

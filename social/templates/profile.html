@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+<!--prettier-ignore-->
+{% block title %}{{social_profile.owner.username}}{% endblock %}
+
+{% block content %}
+<div style="padding: 2rem 0">
+  <section class="-top-border -vside-borders profile-main-section">
+    <div class="-flex-row" style="justify-content: flex-start">
+      {% if social_profile.pfp %}
+      <img class="profile-picture" src="{{ social_profile.pfp }}" />
+      {% else %}
+      <img class="profile-picture" src="/static/media/default_pfp.jpg" />
+      {% endif %}
+      <div
+        class="-flex-col profile-details-section"
+        style="padding: 1.5rem 2rem; gap: 1.5rem"
+      >
+        <section
+          class="-flex-row"
+          style="gap: 1.5rem; justify-content: flex-start"
+        >
+          <h3 style="width: fit-content">
+            @{{ social_profile.owner.username }}
+          </h3>
+          <!--prettier-ignore-->
+          {% if not my_page %}
+          {% csrf_token %}
+
+          {% if already_following %}
+          <button
+            type="button"
+            data-action="follow-unfollow"
+            data-id="{{ profile_user.id }}"
+            class="btn-blue"
+          >
+            unfollow
+          </button>
+          {% else %}
+          <button
+            type="button"
+            data-action="follow-unfollow"
+            data-id="{{ profile_user.id }}"
+            class="btn-blue"
+          >
+            follow
+          </button>
+          {% endif %}
+          <!--prettier-ignore-->
+
+          {% endif %}
+        </section>
+        <!---->
+        <section class="-flex-row" style="gap: 1.5rem">
+          <label>n posts</label>
+          <label>?recipes?</label>
+          <label>{{flwrs}} followers</label>
+          <label>{{flwng}} following</label>
+          <label>n likes</label>
+        </section>
+        <!---->
+        <section>
+          <p>{{social_profile.bio}}</p>
+        </section>
+      </div>
+    </div>
+    <div class="-top-border -bottom-border" style="padding: 1.5rem 0">
+      <div
+        class="-flex-row"
+        style="width: fit-content; gap: 4rem; margin: auto"
+      >
+        <button type="button">Posts</button>
+        <button type="button">Recipes</button>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
