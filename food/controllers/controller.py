@@ -12,12 +12,12 @@ from ..exceptions.exeptions import MissingField, InvalidReference
 class ControllerTools:
 
     @staticmethod
-    def validate_dict(d):
+    def validate_dict(d, value_type):
         for key, value in d.items():
             if isinstance(value, list):
                 value = value[0]
             try:
-                d[key] = float(value)
+                d[key] = value_type(value)
             except (TypeError, ValueError) as e:
                 raise InvalidReference(f"Invalid reference {str(e)}")
         return d
@@ -29,7 +29,43 @@ class ControllerTools:
             return False
         
         return True
+    
+    
+class NutrientController:
+    @staticmethod
+    def get_form(request):
+        return JsonResponse({"data": NutrientService.get_form(), "csrf_token": get_token(request)})
+    
+    @staticmethod
+    def post_form(request):
+        nutrients = ControllerTools.validate_dict(dict(request.POST), str)
+        NutrientService.post_form(nutrients)
+        return JsonResponse({})
 
+
+class FoodCategoryController:
+    @staticmethod
+    def get_form(request):
+        return JsonResponse({"data": FoodCategoryService.get_form(), "csrf_token": get_token(request)})
+    
+    @staticmethod
+    def post_form(request):
+        categories = request.POST.getlist("categories", "")
+        FoodCategoryService.post_form(categories)
+        return JsonResponse({})
+
+               
+class FoodCuisineController:
+    @staticmethod
+    def get_form(request):
+        return JsonResponse({"data": FoodCuisineService.get_form(), "csrf_token": get_token(request)})
+    
+    @staticmethod
+    def post_form(request):
+        cuisines = request.POST.getlist("cuisines", "")
+        FoodCuisineService.post_form(cuisines)
+        return JsonResponse({})
+    
 
 class FoodItemController:
 
@@ -225,95 +261,40 @@ def composition(request, id=None):
         return FoodItemChildController.post_form(request, id)
 
     else:
-        return HttpResponseNotAllowed(["POST", "GET"])
+        return HttpResponseNotAllowed(["GET", "POST"])
 
 
+@login_required
+def nutrients(request):
 
-
-
-
-
-
-
-
-# # ADMIN TODO
-# @login_required
-# def form_nutrient(request):
-#     VALID_ACTIONS = {
-#             "save_go_home": 'homepage',
-#             "save_one_more": 'form_nutrient'
-#         }
-#     if request.method == "POST":
-#         action = request.POST.get("action")
-#         if action not in VALID_ACTIONS.keys():
-#             return JsonResponse({"ok": False, "error": "Invalid save action"}, status=403)
-
-#         name = request.POST.get("name", "")
-#         unit = request.POST.get("unit", "")
-
-#         try:
-#             service.post_form_nutrient(name=name, unit=unit)
-#             return redirect(VALID_ACTIONS[action])
-#         except (InvalidReference, ValueError) as e:
-#             return JsonResponse({"ok": False, "error": str(e)}, status=400)
-
-#     elif request.method == "GET":
-#         return render(request, "form_nutrient.html", service.get_form_nutrient_data())
+    if request.method == "GET":
+        return NutrientController.get_form(request)
     
-#     else:
-#         return HttpResponseNotAllowed(["POST", "GET"])
-    
-# @login_required
-# def form_category(request):
-#     VALID_ACTIONS = {
-#             "save_go_home": 'homepage',
-#             "save_one_more": 'form_category'
-#         }
-#     if request.method == "POST":
-#         action = request.POST.get("action")
-#         if action not in VALID_ACTIONS.keys():
-#             return JsonResponse({"ok": False, "error": "Invalid save action"}, status=403)
-        
-#         name = request.POST.get("name")
+    elif request.method == "POST":
+        return NutrientController.post_form(request)
 
-#         if not name:
-#             return JsonResponse({"ok": False, "error": "'name' value is missing"}, status=403)
+    else:
+        return HttpResponseNotAllowed(["GET", "POST"])
 
-#         try:
-#             service.post_form_category(name)
-#             return redirect(VALID_ACTIONS[action])
-#         except (InvalidReference, ValueError) as e:
-#             return JsonResponse({"ok": False, "error": str(e)}, status=400)
-            
-#     elif request.method == "GET":
-#         return render(request, "form_category.html", service.get_form_category_data())
-#     else:
-#         return HttpResponseNotAllowed(["POST", "GET"])
-    
-# @login_required
-# def form_cuisine(request):
-#     VALID_ACTIONS = {
-#             "save_go_home": 'homepage',
-#             "save_one_more": 'form_cuisine'
-#         }
-#     if request.method == "POST":
-#         action = request.POST.get("action")
-#         if action not in VALID_ACTIONS.keys():
-#             return JsonResponse({"ok": False, "error": "Invalid save action"}, status=403)
-        
-#         name = request.POST.get("name")
 
-#         if not name:
-#             return JsonResponse({"ok": False, "error": "'name' value is missing"}, status=403)
+@login_required
+def categories(request):
 
-#         try:
-#             service.post_form_cuisine(name)
-#             return redirect(VALID_ACTIONS[action])
-#         except (InvalidReference, ValueError) as e:
-#             return JsonResponse({"ok": False, "error": str(e)}, status=400)
-            
-#     elif request.method == "GET":
-#         return render(request, "form_cuisine.html", service.get_form_cuisine_data())
-#     else:
-#         return HttpResponseNotAllowed(["POST", "GET"])
+    if request.method == "GET":
+        return FoodCategoryController.get_form(request)
+    elif request.method == "POST":
+        return FoodCategoryController.post_form(request)
+    else:
+        return HttpResponseNotAllowed(["GET", "POST"])
+
+
+@login_required
+def cuisines(request):
+
+    if request.method == "GET":
+        return FoodCuisineController.get_form(request)
+    elif request.method == "POST":
+        return FoodCuisineController.post_form(request)
+    else:
+        return HttpResponseNotAllowed(["GET", "POST"])
 

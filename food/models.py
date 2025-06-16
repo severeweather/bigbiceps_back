@@ -18,11 +18,11 @@ class FoodItem(models.Model):
 
 class FoodCategory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField()
+    name = models.CharField(unique=True)
 
 class FoodCuisine(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField()
+    name = models.CharField(unique=True)
 
 
 class FoodItemCategory(models.Model):
@@ -45,6 +45,9 @@ class Nutrient(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(blank=False)
     unit = models.CharField(blank=False)
+
+    class Meta:
+        unique_together = ("name", "unit")
     
 class FoodItemNutrient(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

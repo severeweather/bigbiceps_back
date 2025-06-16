@@ -11,6 +11,9 @@ def delete_all(request):
 urlpatterns = [
     path("", page, name="food"),
 
+    path("new/nutrients", nutrients, name="food__nutrients"),
+    path("new/categories", categories, name="food__categories"),
+    path("new/cuisines", cuisines, name="food__cuisines"),
 
     path("new/<str:food_type>", form, name="food__form"),
 
@@ -22,10 +25,5 @@ urlpatterns = [
     path("<uuid:id>/composition", composition, name="food__composition"),
     
 
-    # #TODO
-    # path("admin/form/nutrient", form_nutrient, name="form_nutrient"),   
-    # path("admin/form/category", form_category, name="form_category"),   
-    # path("admin/form/cuisine", form_cuisine, name="form_cuisine"),   
-
-    path("delete/all", delete_all, name="name")
+    # path("delete/all", delete_all, name="name")
 ]

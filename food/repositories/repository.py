@@ -113,7 +113,6 @@ class FoodCuisineRepository:
         pass
 
 
-
 class FoodItemRepository:
     model = FoodItem
 
@@ -143,6 +142,7 @@ class FoodItemRepository:
             } 
             for x in FoodItem.objects.filter(type=food_type)
         ]
+
 
 class FoodItemNutrientRepository:
     model = FoodItemNutrient

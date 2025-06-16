@@ -17,15 +17,18 @@ class NutrientService:
             raise InvalidReference(f"Invalid reference {str(e)}")
    
     @staticmethod
-    def post_form(name, unit):
-        if not name or not unit:
-            raise ValueError("'name' or 'unit' value is missing")
-        
-        try:
-            NutrientRepository.create(name, unit)
-            return
-        except AlreadyExists:
-            raise InvalidReference(f"Nutrient '${name}' already exists")
+    def get_form():
+        return {
+            "note": "Expecting list of key-value pairs with following structure. Structure: {name: unit}, where both 'name' and 'unit' are strings. Example: {'protein': 'g'}.",
+        }
+
+    @staticmethod
+    def post_form(nutrients):
+        for key, value in nutrients.items():
+            try:
+                NutrientRepository.create(key.capitalize(), value)
+            except AlreadyExists:
+                continue
         
 
 class FoodCategoryService:
@@ -42,12 +45,19 @@ class FoodCategoryService:
             raise InvalidReference(f"Invalid reference {str(e)}")
     
     @staticmethod
-    def post_form(name):
-        try:
-            FoodCategoryRepository.create(name)
-            return
-        except AlreadyExists:
-            raise InvalidReference(f"Category '${name}' already exists")
+    def get_form():
+        return {
+            "note": "Expecting list 'categories' of values type string."
+        }
+    
+    @staticmethod
+    def post_form(categories):
+        for category in categories:
+            try:
+                FoodCategoryRepository.create(category.capitalize())
+            except AlreadyExists:
+                continue
+            
         
 
 class FoodCuisineService:
@@ -64,12 +74,18 @@ class FoodCuisineService:
             raise InvalidReference(f"Invalid reference {str(e)}")
 
     @staticmethod
-    def post_form(name):
-        try:
-            FoodCuisineRepository.create(name)
-            return
-        except AlreadyExists:
-            raise InvalidReference(f"Cuisine '${name}' already exists")
+    def get_form():
+        return {
+            "note": "Expecting list 'cuisines' of values type string."
+        }
+    
+    @staticmethod
+    def post_form(cuisines):
+        for cuisine in cuisines:
+            try:
+                FoodCuisineRepository.create(cuisine.capitalize())
+            except AlreadyExists:
+                continue
 
 
 
