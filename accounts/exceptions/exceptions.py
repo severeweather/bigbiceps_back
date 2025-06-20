@@ -1,5 +1,9 @@
 class MissingCredentials(Exception):
-    pass
+    def __init__(self, *args):
+        self.missing = args
+        super().__init__("Missing credentials")
 
 class InvalidCredentials(Exception):
-    pass
+    def __init__(self, error):
+        self.error = error
+        super().__init__("Invalid credentials")
