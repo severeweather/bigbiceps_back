@@ -8,11 +8,7 @@ from ..exceptions.exceptions import MissingCredentials, InvalidCredentials
 class AccountLoginView(View):
 
     def get(self, request):
-        try:
-            data = CustomUserService.get_form_data()
-            return JsonResponse({"data": data}, status=200)
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
+        pass
 
     def post(self, request):
         username = request.POST.get("username", "")

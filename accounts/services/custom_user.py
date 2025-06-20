@@ -4,9 +4,6 @@ from ..forms import RegisterForm
 
 
 class CustomUserService:
-    def get_form_data():
-        pass
-
     def login(username, password):
         if not username or not password:
             raise MissingCredentials
