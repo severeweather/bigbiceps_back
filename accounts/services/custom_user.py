@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate
-from ..exceptions.exceptions import MissingCredentials, InvalidCredentials
+from ..exceptions import MissingCredentials, InvalidCredentials
 from ..forms import RegisterForm
 
 
@@ -21,7 +21,7 @@ class CustomUserService:
         
         form = RegisterForm(data=kwargs)
         if not form.is_valid():
-            raise InvalidCredentials(form.errors.get_json_data())
+            raise InvalidCredentials(details=form.errors.get_json_data())
         
         user = form.save()
         return user

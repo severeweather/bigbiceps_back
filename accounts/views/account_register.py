@@ -1,6 +1,6 @@
 from django.views import View
 from ..services.custom_user import CustomUserService
-from ..exceptions.exceptions import MissingCredentials, InvalidCredentials
+from ..exceptions import MissingCredentials, InvalidCredentials
 from django.http import JsonResponse
 from django.contrib.auth import login
 

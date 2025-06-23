@@ -12,7 +12,6 @@ urlpatterns = [
     path("auth/", include("accounts.urls")),
 
     path("api/logs/", include("logs.urls_api")),
-    path("api/food/", include("food.urls_api")),
     path("api/social/", include("social.urls_api")),
 
     path("", include("social.urls")),
