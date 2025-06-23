@@ -15,10 +15,10 @@ class FoodItem(models.Model):
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
 
-
 class FoodCategory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(unique=True)
+
 
 class FoodCuisine(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -33,6 +33,7 @@ class FoodItemCategory(models.Model):
     class Meta:
         unique_together = ("food", "category")
     
+    
 class FoodItemCuisine(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     food = models.ForeignKey(FoodItem, on_delete=models.CASCADE)
@@ -41,6 +42,7 @@ class FoodItemCuisine(models.Model):
     class Meta:
         unique_together = ("food", "cuisine")
 
+
 class Nutrient(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(blank=False)
@@ -48,6 +50,7 @@ class Nutrient(models.Model):
 
     class Meta:
         unique_together = ("name", "unit")
+    
     
 class FoodItemNutrient(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -58,7 +61,8 @@ class FoodItemNutrient(models.Model):
     class Meta:
         unique_together = ('food', 'nutrient')
 
-class FoodItemChild(models.Model):
+
+class FoodItemComposition(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     parent = models.ForeignKey(FoodItem, on_delete=models.CASCADE, related_name="parent")
     child = models.ForeignKey(FoodItem, on_delete=models.CASCADE, related_name="child")
