@@ -1,5 +1,5 @@
 from ..models import Nutrient
-from ..serializers import NutrientSerializer
+from food.serializers.nutrient_serializer import NutrientSerializer
 from ..exeptions import IDNotFound, AlreadyExists
 from django.db import IntegrityError
 

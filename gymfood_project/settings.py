@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'logs',
     'nutrition',
     'social',
+    'search',
 ]
 
 MIDDLEWARE = [

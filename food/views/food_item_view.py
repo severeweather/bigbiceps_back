@@ -6,6 +6,7 @@ from ..exeptions import internal_error
 
 class FoodItemView(View):
     food_type = None
+    composition = []
 
     def get(self, request, id=None):
         if not id:
@@ -26,7 +27,7 @@ class FoodItemView(View):
                 name=request.POST.get("name", ""),
                 description=request.POST.get("description", "")
             )
-            return JsonResponse({"id": food_item_id, "food_type": self.food_type}, status=201)
+            return JsonResponse({"id": food_item_id, "food_type": self.food_type, "composition": self.composition}, status=201)
 
         except ValueError as e:
             return JsonResponse({"error": str(e)}, status=400)
@@ -36,9 +37,12 @@ class FoodItemView(View):
         
 class IngredientView(FoodItemView):
     food_type = "ingredient"
+    composition = []
 
 class DishView(FoodItemView):
     food_type = "dish"
+    composition = ["ingredient"]
 
 class MealView(FoodItemView):
     food_type = "meal"
+    composition = ["ingredient", "dish"]

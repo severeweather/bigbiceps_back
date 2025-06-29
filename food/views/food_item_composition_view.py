@@ -12,6 +12,7 @@ class FoodItemCompositionView(View):
                 return JsonResponse(id_not_provided(), status=400)
 
             children_list = validate_dict(dict(request.POST), float)
+            print(children_list)
             service.post_form(id, children_list)
             return JsonResponse(response_ok(), status=201)
             

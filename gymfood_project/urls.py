@@ -10,6 +10,7 @@ urlpatterns = [
     path("logs/", include("logs.urls")),
     path("plate/", plate, name="plate"),
     path("auth/", include("accounts.urls")),
+    path("search/", include("search.urls")),
 
     path("api/logs/", include("logs.urls_api")),
     path("api/social/", include("social.urls_api")),

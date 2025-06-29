@@ -5,6 +5,25 @@ from ..exeptions import IDNotFound, InvalidReference
 
 class FoodItemService:
     @staticmethod
+    def filter(**kwargs):
+        allowed_filters = ("name", "food_type")
+        filters = {}
+
+        for key in kwargs.keys():
+            if key not in allowed_filters:
+                raise InvalidReference(details=f"Invalid filter: {key}")
+        
+        for key, value in kwargs.items():
+            if key == "name":
+                filters["name__icontains"] = value
+            if key == "food_type":
+                filters["type__in"] = value
+
+
+        filtered = FoodItemRepository.get_filtered(filters)
+        return filtered
+
+    @staticmethod
     def get_by_id(id):
         try:
             return FoodItemRepository.get_by_id(id)

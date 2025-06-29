@@ -4,6 +4,10 @@ from ..exeptions import IDNotFound
 
 class FoodItemRepository:
     @staticmethod
+    def get_filtered(filters: dict):
+        return FoodItem.objects.filter(**filters)
+
+    @staticmethod
     def get_by_id(id):
         try:
             return FoodItem.objects.get(id=id)
