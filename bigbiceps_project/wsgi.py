@@ -1,5 +1,5 @@
 """
-WSGI config for gymfood_project project.
+WSGI config for bigbiceps_project project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gymfood_project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bigbiceps_project.settings')
 
 application = get_wsgi_application()
